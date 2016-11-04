@@ -16,9 +16,14 @@ var isDown = false;
 function getCenter(x, y, size){
 
 	// check the (x, y) coordinates
-	var x = parseInt((mouseX - 2) / size);
-	var y = parseInt((mouseY - 2) / size);
-	var cell = $($('#gameGrid td')[y * 10 + x]);
+	var i = parseInt((mouseX - 2) / size);
+	var j = parseInt((mouseY - 2) / size);
+
+	// out of bound
+	if(i < 0 || j < 0){
+		return null;
+	}
+	var cell = $($('#gameGrid td')[j * 10 + i]);
 	
 	// center x and y
 	var center = {};
@@ -44,7 +49,7 @@ function handleMouseDown(e) {
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
 
-	var center = getCenter(mouseX, mouseY, 27);
+	var center = getCenter(mouseX, mouseY, 30);
     // save drag-startXY, 
     // move temp canvas over main canvas,
     // set dragging flag
@@ -73,7 +78,10 @@ function handleMouseUp(e) {
         left: -500,
         top: 0
     });
-	var center = getCenter(mouseX, mouseY, 27);
+	var center = getCenter(mouseX, mouseY, 30);
+	if(center == null){
+		return;
+	}
     drawLine(center.x, center.y, ctx);
 }
 
