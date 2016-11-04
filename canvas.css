@@ -21,6 +21,7 @@ body {
     border:1px solid red;
 }
 #gameGrid td{
-	vertical-align:text-top;
 	text-align:center;
+	border-collapse: collapse; 
+	border-spacing:0; 
 }
