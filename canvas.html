@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>How to drag a line</title>
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="canvas.js"></script>
+		<link rel="stylesheet" type="text/css" href="canvas.css" />
+	</head>
+	<body>
+		<h4>Drag a line...<h4>
+		<h5>On mousedown, temp canvas is put over main canvas<br>
+		On mousemove, line is drawn on temp canvas<br>
+		On mouseup, line is drawn on main canvas<br>
+		and temp canvas is moved offscreen
+		</h5>
+		<div id="wrapper">
+			<canvas id="canvasTemp" width=300 height=200></canvas>
+			<canvas id="canvas" width=300 height=200></canvas>
+		</div>
+	</body>
+</html>
