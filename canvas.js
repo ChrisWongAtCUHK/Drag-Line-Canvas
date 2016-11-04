@@ -9,7 +9,25 @@ var offsetY;
 var startX;
 var startY;
 var isDown = false;
+
+/*
+ * Parse the mouse x,y coordinate to center accordingly
+ */
+function getCenter(x, y, size){
+
+	// check the (x, y) coordinates
+	var x = parseInt((mouseX - 2) / size);
+	var y = parseInt((mouseY - 2) / size);
+	var cell = $($('#gameGrid td')[y * 10 + x]);
 	
+	// center x and y
+	var center = {};
+	center.x = cell.position().left + parseInt(cell.width() / 2);
+	center.y = cell.position().top + parseInt(cell.height() / 2);
+
+	return center;
+}
+
 function drawLine(toX, toY, context) {
     context.beginPath();
     context.moveTo(startX, startY);
@@ -25,17 +43,13 @@ function handleMouseDown(e) {
     e.preventDefault();
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
-	// check the (x, y) coordinates
-	var x = parseInt((mouseX - 2) / 27);
-	var y = parseInt((mouseY - 2) / 27);
 
-	var cell = $($('#gameGrid td')[x * 10 + y]);
-
+	var center = getCenter(mouseX, mouseY, 27);
     // save drag-startXY, 
     // move temp canvas over main canvas,
     // set dragging flag
-    startX = mouseX;
-    startY = mouseY;
+	startX = center.x;
+	startY = center.y;
     ctxTemp.clearRect(0, 0, canvasTemp.width, canvasTemp.height);
     $("#canvasTemp").css({
         left: 0,
@@ -55,12 +69,12 @@ function handleMouseUp(e) {
     isDown = false;
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
-	console.log('(x:' + mouseX + ', y:' + mouseY + ')');
     $("#canvasTemp").css({
         left: -500,
         top: 0
     });
-    drawLine(mouseX, mouseY, ctx);
+	var center = getCenter(mouseX, mouseY, 27);
+    drawLine(center.x, center.y, ctx);
 }
 
 function handleMouseMove(e) {
