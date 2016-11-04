@@ -13,6 +13,9 @@ var isDown = false;
 function drawLine(toX, toY, context) {
     context.beginPath();
     context.moveTo(startX, startY);
+	context.lineWidth = 10;
+	context.strokeStyle = 'rgba(0,0,0,0.2)';
+	context.fillStyle = 'rgba(0,0,0,0.2)';
     context.lineTo(toX, toY);
     context.stroke();
 }
