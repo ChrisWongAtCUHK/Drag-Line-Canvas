@@ -13,7 +13,7 @@ var isDown = false;
 function drawLine(toX, toY, context) {
     context.beginPath();
     context.moveTo(startX, startY);
-	context.lineWidth = 10;
+	context.lineWidth = 20;
 	context.lineCap = 'round';
 	context.strokeStyle = 'rgba(0,0,0,0.2)';
 	context.fillStyle = 'rgba(0,0,0,0.2)';
@@ -25,6 +25,11 @@ function handleMouseDown(e) {
     e.preventDefault();
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
+	// check the (x, y) coordinates
+	var x = parseInt((mouseX - 2) / 27);
+	var y = parseInt((mouseY - 2) / 27);
+
+	var cell = $($('#gameGrid td')[x * 10 + y]);
 
     // save drag-startXY, 
     // move temp canvas over main canvas,
@@ -50,6 +55,7 @@ function handleMouseUp(e) {
     isDown = false;
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
+	console.log('(x:' + mouseX + ', y:' + mouseY + ')');
     $("#canvasTemp").css({
         left: -500,
         top: 0
