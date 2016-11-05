@@ -121,8 +121,5 @@ $(function() {
 	$("#canvas").mouseup(function (e) {
 		handleMouseUp(e);
 	});
-	$("#canvas").mouseout(function (e) {
-		handleMouseUp(e);
-	});
 });
 
