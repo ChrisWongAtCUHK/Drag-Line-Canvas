@@ -10,10 +10,13 @@ var startX;
 var startY;
 var isDown = false;
 
+var startCell;
+var endCell;
+
 /*
  * Parse the mouse x,y coordinate to center accordingly
  */
-function getCenter(x, y, size){
+function getCell(x, y, size){
 
 	// check the (x, y) coordinates
 	var i = parseInt((mouseX - 2) / size);
@@ -26,11 +29,13 @@ function getCenter(x, y, size){
 	var cell = $($('#gameGrid td')[j * 10 + i]);
 	
 	// center x and y
-	var center = {};
-	center.x = cell.position().left + parseInt(cell.width() / 2);
-	center.y = cell.position().top + parseInt(cell.height() / 2);
+	var returnCell = {};
+	returnCell.mouseX = cell.position().left + parseInt(cell.width() / 2);
+	returnCell.mouseY = cell.position().top + parseInt(cell.height() / 2);
+	returnCell.x = i;
+	returnCell.y = j;
 
-	return center;
+	return returnCell;
 }
 
 function drawLine(toX, toY, context) {
@@ -49,12 +54,12 @@ function handleMouseDown(e) {
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
 
-	var center = getCenter(mouseX, mouseY, 30);
+	startCell = getCell(mouseX, mouseY, 30);
     // save drag-startXY, 
     // move temp canvas over main canvas,
     // set dragging flag
-	startX = center.x;
-	startY = center.y;
+	startX = startCell.mouseX;
+	startY = startCell.mouseY;
     ctxTemp.clearRect(0, 0, canvasTemp.width, canvasTemp.height);
     $("#canvasTemp").css({
         left: 0,
@@ -78,11 +83,14 @@ function handleMouseUp(e) {
         left: -500,
         top: 0
     });
-	var center = getCenter(mouseX, mouseY, 30);
-	if(center == null){
+	endCell = getCell(mouseX, mouseY, 30);
+	if(endCell == null){
 		return;
 	}
-    drawLine(center.x, center.y, ctx);
+   	// only draw line with matched words
+	if(isMatch(startCell, endCell)){
+		drawLine(endCell.mouseX, endCell.mouseY, ctx);
+	}
 }
 
 function handleMouseMove(e) {

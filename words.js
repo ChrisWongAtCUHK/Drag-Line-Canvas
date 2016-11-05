@@ -50,3 +50,19 @@ function startPuzzle(){
 
 	}
 }
+
+function getCellLetter(cell){
+	var letter = $($('#gameGrid td')[cell.y * 10 + cell.x])[0].innerHTML;
+	return letter;
+}
+
+/*
+ *
+ * */
+function isMatch(startCell, endCell){
+	var startLetter = getCellLetter(startCell);
+	console.log(startLetter);
+	var endLetter = getCellLetter(endCell);
+	console.log(endLetter);
+	return true;
+}
