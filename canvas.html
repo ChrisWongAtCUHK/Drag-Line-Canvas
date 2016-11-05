@@ -5,7 +5,7 @@
 		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
 		<script src="test.js"></script>
 		<script src="words.js"></script>
-		<script src="canvas.js"></script>
+		<script src="gameCanvas.js"></script>
 		<link rel="stylesheet" type="text/css" href="canvas.css" />
 	</head>
 	<body>
@@ -24,5 +24,11 @@
 			<canvas id="canvasTemp" width=300 height=300></canvas>
 			<canvas id="canvas" width=300 height=300></canvas>
 		</div>
+		<script>
+			$(function(){
+				var words = startPuzzle();
+				$('#gameGrid').gameCanvas($('#canvas'), $('#canvasTemp'), words);
+			});
+		</script>
 	</body>
 </html>
