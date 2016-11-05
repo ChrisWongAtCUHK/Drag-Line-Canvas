@@ -99,6 +99,8 @@ function handleMouseMove(e) {
 }
 
 $(function() {
+	// start the puzzle
+	startPuzzle();
 	canvas = document.getElementById("canvas");
 	ctx = canvas.getContext("2d");
 	canvasTemp = document.getElementById("canvasTemp");
