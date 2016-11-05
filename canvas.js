@@ -16,7 +16,7 @@ var endCell;
 /*
  * Parse the mouse x,y coordinate to center accordingly
  */
-function getCell(x, y, size){
+function getCell($gameGrid, x, y, size){
 
 	// check the (x, y) coordinates
 	var i = parseInt((mouseX - 2) / size);
@@ -26,7 +26,7 @@ function getCell(x, y, size){
 	if(i < 0 || j < 0){
 		return null;
 	}
-	var cell = $($('#gameGrid td')[j * 10 + i]);
+	var cell = $($gameGrid[j * 10 + i]);
 	
 	// center x and y
 	var returnCell = {};
@@ -54,7 +54,7 @@ function handleMouseDown(e) {
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
 
-	startCell = getCell(mouseX, mouseY, 30);
+	startCell = getCell(e.data.$gameGrid, mouseX, mouseY, 30);
     // save drag-startXY, 
     // move temp canvas over main canvas,
     // set dragging flag
@@ -83,13 +83,14 @@ function handleMouseUp(e) {
         left: -500,
         top: 0
     });
-	endCell = getCell(mouseX, mouseY, 30);
+	endCell = getCell(e.data.$gameGrid, mouseX, mouseY, 30);
 	if(endCell == null){
 		return;
 	}
    	// only draw line with matched words
-	var gameGrid = $('#gameGrid td');
-	if(isMatch(gameGrid, words, startCell, endCell)){
+	var $gameGrid = e.data.$gameGrid;
+	$gameGrid.totalRow = $('#gameGrid tr').length;
+	if(isMatch($gameGrid, words, startCell, endCell)){
 		drawLine(endCell.mouseX, endCell.mouseY, ctx);
 	}
 }
@@ -110,6 +111,7 @@ function handleMouseMove(e) {
 $(function() {
 	// start the puzzle
 	words = startPuzzle();
+	var $gameGrid = $('#gameGrid td');
 	canvas = document.getElementById("canvas");
 	ctx = canvas.getContext("2d");
 	canvasTemp = document.getElementById("canvasTemp");
@@ -123,13 +125,13 @@ $(function() {
 		top: 0
 	});
 
-	$("#canvas").mousedown(function (e) {
+	$("#canvas").mousedown({$gameGrid: $gameGrid}, function (e) {
 		handleMouseDown(e);
 	});
-	$("#canvas").mousemove(function (e) {
+	$("#canvas").mousemove({$gameGrid: $gameGrid}, function (e) {
 		handleMouseMove(e);
 	});
-	$("#canvas").mouseup(function (e) {
+	$("#canvas").mouseup({$gameGrid: $gameGrid}, function (e) {
 		handleMouseUp(e);
 	});
 });

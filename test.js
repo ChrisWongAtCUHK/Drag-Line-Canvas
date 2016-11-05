@@ -19,10 +19,10 @@ function startPuzzle(){
 
 	var gameGrid = $('#gameGrid tbody');
 	var size = 10;
-	for(var i = 0; i < size; i++){
+	for(var row = 0; row < size; row++){
 		var tr = $('<tr>');
-		for(var j = 0; j < size; j++){
-			tr.append('<td>' + puzzle[j * size + i] + '</td>');		
+		for(var col = 0; col < size; col++){
+			tr.append('<td>' + puzzle[row * size + col] + '</td>');		
 		}
 		gameGrid.append(tr);
 

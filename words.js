@@ -1,20 +1,20 @@
 /*
  *	Get a single letter from the grid
  * */
-function getCellLetter(gameGrid, x, y){
-	var letter = $(gameGrid[y * 10 + x])[0].innerHTML;
+function getCellLetter($gameGrid, x, y){
+	var letter = $($gameGrid[y * $gameGrid.totalRow + x])[0].innerHTML;
 	return letter;
 }
 
 /*
  *	Get the word, there are 8 directions
  * */
-function getWord(gameGrid, startCell, endCell){
+function getWord($gameGrid, startCell, endCell){
 	var word = '';
 	if(startCell.x == endCell.x && startCell.y > endCell.y){
 		// up
 		for(var j = startCell.y; j >= endCell.y; j--){
-			word += getCellLetter(gameGrid, startCell.x, j);
+			word += getCellLetter($gameGrid, startCell.x, j);
 		}
 	} else if(startCell.x < endCell.x && startCell.y > endCell.y){
 		// up-right
@@ -56,8 +56,8 @@ function isWordInList(word, words){
 /*
  *	Deter if the word is matched
  * */
-function isMatch(gameGrid, words, startCell, endCell){
-	var word = getWord(gameGrid, startCell, endCell);
+function isMatch($gameGrid, words, startCell, endCell){
+	var word = getWord($gameGrid, startCell, endCell);
 	if(isWordInList(word, words)){
 		return true;
 	}
