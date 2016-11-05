@@ -72,11 +72,14 @@ function getWord($gameGrid, startX, startY, endX, endY){
  * */
 function isWordInList(word, words){
 	for(var i = 0; i < words.length; i++){
-		if(word == words[i]){
+		var reversedWord = word.split('').reverse().join('');
+		if(word == words[i] || reversedWord == words[i]){
 			words.splice(i ,1);
 			return true;
 		}
+
 	}
+	return false;
 }
 
 /*
@@ -84,7 +87,6 @@ function isWordInList(word, words){
  * */
 function isMatch($gameGrid, words, startCell, endCell){
 	var word = getWord($gameGrid, startCell.x, startCell.y, endCell.x, endCell.y);
-	console.log('word='+word);
 	if(isWordInList(word, words)){
 		return true;
 	}
