@@ -88,7 +88,8 @@ function handleMouseUp(e) {
 		return;
 	}
    	// only draw line with matched words
-	if(isMatch(startCell, endCell)){
+	var gameGrid = $('#gameGrid td');
+	if(isMatch(gameGrid, words, startCell, endCell)){
 		drawLine(endCell.mouseX, endCell.mouseY, ctx);
 	}
 }
@@ -108,7 +109,7 @@ function handleMouseMove(e) {
 
 $(function() {
 	// start the puzzle
-	startPuzzle();
+	words = startPuzzle();
 	canvas = document.getElementById("canvas");
 	ctx = canvas.getContext("2d");
 	canvasTemp = document.getElementById("canvasTemp");
