@@ -9,34 +9,60 @@ function getCellLetter($gameGrid, x, y){
 /*
  *	Get the word, there are 8 directions
  * */
-function getWord($gameGrid, startCell, endCell){
+function getWord($gameGrid, startX, startY, endX, endY){
 	var word = '';
-	if(startCell.x == endCell.x && startCell.y > endCell.y){
+	if(startX == endX && startY > endY){
 		// up
-		for(var j = startCell.y; j >= endCell.y; j--){
-			word += getCellLetter($gameGrid, startCell.x, j);
+		for(var j = startY; j >= endY; j--){
+			word += getCellLetter($gameGrid, startX, j);
 		}
-	} else if(startCell.x < endCell.x && startCell.y > endCell.y){
+	} else if(startX < endX && startY > endY){
 		// up-right
-		return 1;
-	} else if(startCell.x < endCell.x && startCell.y == endCell.y){
+		var j = startY;
+		for(var i = startX; i <= endX; i++, j--){
+			word += getCellLetter($gameGrid, i, j);
+		}
+		if(j + 1 != endY)
+			return '';
+	} else if(startX < endX && startY == endY){
 		// right
-		return 2;
-	} else if(startCell.x < endCell.x && startCell.y < endCell.y){
+		for(var i = startX; i <= endX; i++){
+			word += getCellLetter($gameGrid, i, startY);
+		}
+	} else if(startX < endX && startY < endY){
 		// down-right
-		return 3;
-	} else if(startCell.x == endCell.x && startCell.y < endCell.y){
+		var j = startY;
+		for(var i = startX; i <= endX; i++, j++){
+			word += getCellLetter($gameGrid, i, j);
+		}
+		if(j - 1 != endY)
+			return '';
+	} else if(startX == endX && startY < endY){
 		// down
-		return 4;
-	} else if(startCell.x < endCell.x && startCell.y < endCell.y){
+		for(var j = startY; j <= endY; j++){
+			word += getCellLetter($gameGrid, startX, j);
+		}
+	} else if(startX > endX && startY < endY){
 		// down-left
-		return 5;
-	} else if(startCell.x < endCell.x && startCell.y == endCell.y){
+		var j = startY;
+		for(var i = startX; i >= endX; i--, j++){
+			word += getCellLetter($gameGrid, i, j);
+		}
+		if(j - 1 != endY)
+			return '';
+	} else if(startX > endX && startY == endY){
 		// left
-		return 6;
-	} else if(startCell.x < endCell.x && startCell.y > endCell.y){
+		for(var i = startX; i >= endX; i--){
+			word += getCellLetter($gameGrid, i, startY);
+		}
+	} else if(startX > endX && startY > endY){
 		// up-left
-		return 7;
+		var j = startY;
+		for(var i = startX; i >= endX; i--, j--){
+			word += getCellLetter($gameGrid, i, j);
+		}
+		if(j + 1 != endY)
+			return '';
 	}
 	return word;
 }
@@ -57,7 +83,8 @@ function isWordInList(word, words){
  *	Deter if the word is matched
  * */
 function isMatch($gameGrid, words, startCell, endCell){
-	var word = getWord($gameGrid, startCell, endCell);
+	var word = getWord($gameGrid, startCell.x, startCell.y, endCell.x, endCell.y);
+	console.log('word='+word);
 	if(isWordInList(word, words)){
 		return true;
 	}
